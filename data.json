@@ -1,0 +1,73 @@
+{
+  "accounts": [
+    {
+      "userId": "tiITzFKWiIUkuBW9yt5fCdy9RT52",
+      "calendar": [
+        {
+          "id": 1,
+          "title": "ミーティング",
+          "start": "2023-07-15T10:00:00Z",
+          "end": "2023-07-15T11:00:00Z",
+          "allDay": false,
+          "description": "プロジェクト進捗確認",
+          "color": "#ff0000"
+        },
+        {
+          "id": 2,
+          "title": "休暇",
+          "start": "2023-07-20T00:00:00Z",
+          "end": "2023-07-21T23:59:59Z",
+          "allDay": true,
+          "description": "夏季休暇",
+          "color": "#00ff00"
+        }
+      ],
+      "todos": [
+        {
+          "id": 1,
+          "title": "Task 1",
+          "deadline": "2024-07-15",
+          "importance": 3,
+          "completed": false,
+          "tag": "Work"
+        },
+        {
+          "id": 2,
+          "title": "Task 2",
+          "deadline": "2024-07-20",
+          "importance": 1,
+          "completed": true,
+          "tag": "Personal"
+        }
+      ],
+      "tags": ["Work", "Personal"],
+      "note": "テキストを入力してください"
+    },
+    {
+      "userId": "userId_2",
+      "calendar": [
+        {
+          "id": 3,
+          "title": "歯医者",
+          "start": "2023-07-18T14:00:00Z",
+          "end": "2023-07-18T15:00:00Z",
+          "allDay": false,
+          "description": "定期検診",
+          "color": "#0000ff"
+        }
+      ],
+      "todos": [
+        {
+          "id": 3,
+          "title": "Other Task 1",
+          "deadline": "2024-07-22",
+          "importance": 2,
+          "completed": false,
+          "tag": "Health"
+        }
+      ],
+      "tags": ["Health"]
+    }
+  ],
+  "note": ""
+}

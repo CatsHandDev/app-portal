@@ -1,0 +1,268 @@
+.scrollBar::-webkit-scrollbar {
+  width: 16px;
+}
+
+.scrollBar::-webkit-scrollbar-track{
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+.scrollBar::-webkit-scrollbar-thumb{
+  background-color: rgba(59, 130, 246, 1);;
+  border-radius: 100px;
+}
+
+.todoListContainer {
+  height: calc(100vh - 160px);
+  padding: 20px 15px 100px;
+  overflow-y: scroll;
+
+  .tagContainer {
+    height: 40px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+
+    .tag {
+      padding: 5px 15px;
+      border-radius: 5px;
+    }
+
+    .active {
+      background-color: rgba(59, 130, 246, 1);
+      color: #fff;
+    }
+    .nonActive {
+      background-color: rgba(229, 231, 235, 1);
+    }
+
+    button {
+      width: fit-content;
+    }
+  }
+
+  .addTodo {
+    width: 60px;
+    height: 60px;
+    background-color: rgb(59 130 246 / 1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 80px;
+    right: 30px;
+
+    .AddIcon{
+      color: #fff;
+      font-size: 36px;
+      font-weight: bold;
+    }
+  }
+
+  .listContainer {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow:
+      0 1px 3px rgba($color: #000000, $alpha: .1),
+      1px 0 1px rgba($color: #000000, $alpha: .1),
+      -1px 0 1px rgba($color: #000000, $alpha: .1);
+
+    .listWrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .checkButton {
+        margin-right: 10px;
+      }
+    }
+
+    .detailWrapper {
+      display: flex;
+      gap: 40px;
+
+      .tagText {
+        font-size: 14px;
+        color: rgba(75, 85, 99, 1);
+      }
+    }
+
+
+    .title {
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+    }
+
+    .buttonWrapper {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+
+      .button {
+        font-size: 36px;
+        margin-right: 5px;
+      }
+
+      .create {
+        padding: 10px 20px;
+        background-color: rgb(59 130 246 / 1);
+        border-radius: 5px;
+        color: #fff;
+      }
+    }
+  }
+
+  .listComp {
+    background-color: rgba(229, 231, 235, 1);
+  }
+
+  .todoComp {
+    text-decoration: line-through;
+  }
+
+  .modalContainer {
+    max-width: 768px;
+    width: 100%;
+    background-color: rgba($color: #000000, $alpha: .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0s linear 0.2s;
+
+    &.open {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.2s ease-in-out, visibility 0s linear;
+    }
+
+    .modalWrapper {
+      width: 80%;
+      height: fit-content;
+      padding: 1rem;
+      background-color: #fff;
+      border-radius: 0.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.2s ease-in-out;
+
+      .buttonWrapper {
+        display: flex;
+        justify-content: end;
+        gap: 30px;
+
+        .create {
+          padding: 5px 15px;
+          background-color: rgb(59, 130, 246);
+          border-radius: 5px;
+          color: #fff;
+          font-size: 20px;
+        }
+      }
+
+      .input {
+        width: 100%;
+        margin-bottom: 5px;
+        padding: 5px;
+        border: 1px solid #e5e7eb;
+        border-radius: 5px;
+      }
+
+      .range {
+        width: 100%;
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        div {
+          display: flex;
+          justify-content: flex-start;
+
+          span {
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+
+  .sortButton {
+    width: 60px;
+    height: 60px;
+    background-color: rgb(59 130 246 / 1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 80px;
+    left: 20px;
+
+    .SwapVertIcon {
+      color: #fff;
+      font-size: 36px;
+      font-weight: bold;
+      transition: .2s ease-in-out;
+
+      &.desc {
+        transform: rotateX(180deg);
+        transition: .2s ease-in-out;
+      }
+    }
+  }
+}
+
+.Importance5,
+.Importance4,
+.Importance3,
+.Importance2,
+.Importance1 {
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+}
+.Importance5 {
+  &::before {
+    background-image: linear-gradient(220deg, rgba(253, 65, 65, 1), rgba(255, 204, 14, 1));
+  }
+}
+.Importance4 {
+  &::before {
+    background-image: linear-gradient(220deg, rgba(253, 161, 65, 1), rgba(255, 225, 14, 1));
+  }
+}
+
+.Importance3 {
+  &::before {
+    background-image: linear-gradient(220deg, rgba(145, 253, 65, 1), rgba(14, 255, 128, 1));
+  }
+}
+
+.Importance2 {
+  &::before {
+    background-image: linear-gradient(220deg, rgba(65, 253, 191, 1), rgba(14, 255, 202, 1));
+  }
+}
+.Importance1 {
+  &::before {
+    background-image: linear-gradient(220deg, rgba(73, 65, 253, 1), rgba(14, 240, 255, 1));
+  }
+}
