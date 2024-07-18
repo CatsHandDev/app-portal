@@ -95,7 +95,6 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, onSave, onDele
     setIsDeleteConfirmOpen(!isDeleteConfirmOpen);
     onClose();
   }
-  console.log(event.id);
 
   return (
     <div className={styles.modalContainer} onClick={handleContainerClick}>

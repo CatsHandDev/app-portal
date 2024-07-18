@@ -9,6 +9,7 @@ interface NoteProps {
 }
 
 export const Note: React.FC<NoteProps> = ({ user }) => {
+  const [userId, setUserId] = useState<string>(user ? user.uid : 'guest');
   const [noteText, setNoteText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -17,7 +18,7 @@ export const Note: React.FC<NoteProps> = ({ user }) => {
     const fetchNote = async () => {
       if (user) {
         setIsLoading(true);
-        const userDocRef = doc(db, 'users', user.uid);
+        const userDocRef = doc(db, 'users', userId);
         try {
           const docSnap = await getDoc(userDocRef);
           if (docSnap.exists()) {
