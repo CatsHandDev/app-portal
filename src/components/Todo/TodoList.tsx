@@ -8,7 +8,7 @@ import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import Modal from './Modal';
-import { Data, Todo } from '@/lib/types';
+import { Todo } from '@/lib/types';
 import { User } from 'firebase/auth';
 import { db } from '@/lib/firebase';
 import { collection, doc, getDoc, setDoc, updateDoc, deleteDoc, query, where, getDocs, addDoc } from 'firebase/firestore';
@@ -19,7 +19,7 @@ interface AuthProps {
 }
 
 const TodoList: React.FC<AuthProps> = ({ user }) => {
-  const [userId, setUserId] = useState<string>(user ? user.uid : 'guest');
+  const [userId, setUserId] = useState<string>('');
   const [todos, setTodos] = useState<Todo[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [activeTag, setActiveTag] = useState<string>('all');
@@ -40,13 +40,13 @@ const TodoList: React.FC<AuthProps> = ({ user }) => {
 
     try {
       const userDocRef = doc(db, 'users', userId);
-
       const userDocSnap = await getDoc(userDocRef);
 
       if (userDocSnap.exists()) {
-
         const userData = userDocSnap.data();
-        setTags(userData.tags || []);
+        const fetchedTags = userData.tags.filter((tag: string) => tag.trim() !== '');
+
+        setTags(fetchedTags);
 
         const todosQuery = query(collection(db, 'users', userId, 'todos'));
         const todosSnapshot = await getDocs(todosQuery);
@@ -68,9 +68,17 @@ const TodoList: React.FC<AuthProps> = ({ user }) => {
 
   useEffect(() => {
     if (user) {
+      setUserId(user.uid);
+    } else {
+      setUserId('guest');
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (userId) {
       fetchTodosAndTags();
     }
-  }, [fetchTodosAndTags, user]);
+  }, [fetchTodosAndTags, userId]);
 
   const handleDragEnd = async (result: any) => {
     if (!result.destination || !user) return;
@@ -120,30 +128,28 @@ const TodoList: React.FC<AuthProps> = ({ user }) => {
     const todosCollectionRef = collection(db, 'users', userId, 'todos');
 
     try {
-      const querySnapshot = await getDocs(todosCollectionRef);
+      const todoId = uuidv4();
+      const newTodoDoc = await addDoc(todosCollectionRef, {
+        ...newTodo,
+        id: todoId,
+        completed: false,
+      });
+
+      const newTodoWithId = { ...newTodo, id: newTodoDoc.id as unknown as number, completed: false };
+      setTodos([...todos, newTodoWithId]);
+
+      if (!tags.includes(newTodo.tag)) {
+        const newTags = [...tags, newTodo.tag];
+        setTags(newTags);
+        const userDocRef = doc(db, 'users', userId);
+        await updateDoc(userDocRef, { tags: newTags });
+      }
+
+      setIsModalOpen(false);
+      setNewTodo({ title: '', deadline: '', importance: 1, tag: '' });
     } catch (error) {
-      console.error("Error fetching documents: ", error);
+      console.error("Error adding todo:", error);
     }
-
-    const todoId = uuidv4();
-    const newTodoDoc = await addDoc(todosCollectionRef, {
-      ...newTodo,
-      id: todoId,
-      completed: false,
-    });
-
-    const newTodoWithId = { ...newTodo, id: newTodoDoc.id as unknown as number, completed: false };
-    setTodos([...todos, newTodoWithId]);
-
-    if (!tags.includes(newTodo.tag)) {
-      const newTags = [...tags, newTodo.tag];
-      setTags(newTags);
-      const userDocRef = doc(db, 'users', userId);
-      await updateDoc(userDocRef, { tags: newTags });
-    }
-
-    setIsModalOpen(false);
-    setNewTodo({ title: '', deadline: '', importance: 1, tag: '' });
   };
 
   const handleCompleteTodo = (id: number) => {

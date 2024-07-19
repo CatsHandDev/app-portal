@@ -14,7 +14,7 @@
 
 .todoListContainer {
   height: calc(100vh - 160px);
-  padding: 20px 15px 100px;
+  padding: 20px 15px;
   overflow-y: scroll;
 
   .tagContainer {
@@ -51,7 +51,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 80px;
+    bottom: 20px;
     right: 30px;
 
     .AddIcon{
@@ -207,7 +207,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 80px;
+    bottom: 20px;
     left: 20px;
 
     .SwapVertIcon {

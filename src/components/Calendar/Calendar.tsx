@@ -24,6 +24,7 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ view, setView, userId }) => {
 
   useEffect(() => {
     const fetchEvents = async () => {
+
       try {
         const eventsCollectionRef = collection(db, 'users', userId, 'calendar');
         const eventsQuery = query(eventsCollectionRef);

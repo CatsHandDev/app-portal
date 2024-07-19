@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from './nav.module.scss';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
@@ -15,8 +15,16 @@ interface NavProps {
 }
 
 export const Nav: React.FC<NavProps> = ({ activeMenu, setActiveMenu }) => {
+  useEffect(() => {
+    const savedMenu = localStorage.getItem('activeMenu');
+    if (savedMenu) {
+      setActiveMenu(savedMenu);
+    }
+  }, [setActiveMenu]);
+
   const handleMenuClick = (menu: string) => {
     setActiveMenu(menu);
+    localStorage.setItem('activeMenu', menu);
   };
 
   return (
@@ -60,6 +68,16 @@ export const Nav: React.FC<NavProps> = ({ activeMenu, setActiveMenu }) => {
           <TextSnippetOutlinedIcon className={styles.icon} />
         }
         <p>Note</p>
+      </div>
+      <div
+        className={`${styles.menu} ${activeMenu === 'Timetable' ? styles.active : ''}`}
+        onClick={() => handleMenuClick('Timetable')}
+      >
+        {activeMenu === 'Timetable' ?
+          <TextSnippetTwoToneIcon className={styles.icon} /> :
+          <TextSnippetOutlinedIcon className={styles.icon} />
+        }
+        <p>Timetable</p>
       </div>
     </nav>
   );

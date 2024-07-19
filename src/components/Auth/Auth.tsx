@@ -1,13 +1,16 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import { GoogleAuthProvider, signInWithPopup, signOut, User } from 'firebase/auth';
-import styles from './auth.module.scss'
+import styles from './auth.module.scss';
 import { auth } from '@/lib/firebase';
+import RegisterModal from './RegisterModal';
 
 interface AuthProps {
   user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;}
+  setUser: Dispatch<SetStateAction<User | null>>;
+}
 
 const Auth: React.FC<AuthProps> = ({ user, setUser }) => {
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -36,12 +39,25 @@ const Auth: React.FC<AuthProps> = ({ user, setUser }) => {
     }
   };
 
+  const handleRegisterSuccess = () => {
+    setIsRegisterModalOpen(false);
+  };
+
   return (
     <div className={styles.authContainer}>
-      {user
-        ? <button onClick={signOutUser}>Sign Out</button>
-        : <button onClick={signIn}>Sign In</button>
-      }
+      {user ? (
+        <button onClick={signOutUser} className={styles.authButton}>Sign Out</button>
+      ) : (
+        <div>
+          <button onClick={signIn} className={styles.authButton}>Sign In</button>
+          <button onClick={() => setIsRegisterModalOpen(true)} className={styles.authButton}>Sign Up</button>
+        </div>
+      )}
+      <RegisterModal
+        isOpen={isRegisterModalOpen}
+        onClose={() => setIsRegisterModalOpen(false)}
+        onRegisterSuccess={handleRegisterSuccess}
+      />
     </div>
   );
 };

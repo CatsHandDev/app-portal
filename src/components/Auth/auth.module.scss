@@ -1,5 +1,5 @@
 .authContainer {
-  button {
+  .authButton {
     width: fit-content;
     margin-left: 15px;
     padding: 5px 15px;
@@ -7,3 +7,83 @@
     border-radius: 5px;
   }
 }
+
+.modalOverlay {
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+
+  .modalContent {
+    width: 90%;
+    max-width: 400px;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    .googleAuthButton {
+      width: 230px;
+      margin-bottom: 10px;
+      margin-left: 0;
+      padding: 10px 20px;
+      border: 1px solid #c7c7c7;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modalInputWrapper {
+      width: 80%;
+
+      .authInput {
+        max-width: 300px;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #c7c7c7;
+        border-radius: 5px;
+      }
+    }
+
+    .modalButtonContainer {
+      width: 230px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+
+      .registerModalButton {
+        max-width: calc((100% - 20px) / 2);
+        width: 50%;
+        padding: 10px 20px;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:last-child {
+        background-color: #c7c7c7;
+      }
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 500;
+    }
+  }
+}
+

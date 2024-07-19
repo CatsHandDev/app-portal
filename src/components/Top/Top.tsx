@@ -7,6 +7,7 @@ import TodoList from '@/components/Todo/TodoList';
 import { User, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { View, Views } from 'react-big-calendar';
 import { Note } from '../Note/Note';
+import Timetable from '../TimeTable/Timetable';
 
 export const Top = () => {
   const [activeMenu, setActiveMenu] = useState('Home');
@@ -24,6 +25,8 @@ export const Top = () => {
         return <TodoList user={user} />;
       case 'Note':
         return <Note user={user} />;
+      case 'TimeTable':
+        return <Timetable />;
       default:
         return null;
     }

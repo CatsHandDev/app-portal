@@ -47,3 +47,11 @@ export interface ModalProps {
   }>>;
   handleAddTodo: (newTodo: Omit<Todo, "id" | "completed">) => Promise<void>;
 }
+
+export interface TimetableItem {
+  id: string;
+  title: string;
+  duration: number;
+  startTime: string;
+  endTime: string;
+}

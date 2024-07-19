@@ -1,15 +1,16 @@
 .navContainer{
   max-width: 768px;
   width: 100%;
-  height: 60px;
+  height: 100px;
   padding: 15px 0 5px;
   background-color: #fff;
   border-top: 2px solid #e5e7eb;
   display: flex;
   justify-content: space-around;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   transition: .3s ease-in-out;
+  z-index: 500;
 
   .active {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
