@@ -22,11 +22,11 @@ export const Header: React.FC<HeaderProps> = ({ user, setUser, isDarkMode, setIs
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
-    // ここでダークモードの設定を保存するなどの処理を行うことができます
+    // ここでダークモードの設定を保存するなどの処理を行う
   };
 
   const handleClickAway = () => {
-    setIsMenuOpen(false); // モーダル外をクリックしたらメニューを閉じる
+    setIsMenuOpen(false);
   };
 
   return (
