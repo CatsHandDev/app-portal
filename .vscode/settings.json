@@ -4,6 +4,7 @@
     "Firestore",
     "pangea",
     "shiki",
+    "tailwindcss",
     "uuidv"
   ]
 }

@@ -3,7 +3,6 @@ import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea
 import styles from './timetable.module.scss';
 import TimetableModal from './TimetableModal';
 import AddIcon from '@mui/icons-material/Add';
-import debounce from 'lodash/debounce';
 import TimetableRow from './TimetableRow';
 import { db } from '@/lib/firebase';
 import { User } from 'firebase/auth';
@@ -129,7 +128,6 @@ const Timetable: React.FC<AuthProps> = ({ user }) => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
 
-      // Update orderIds
       const updatedItems = items.map((item, index) => ({
         ...item,
         orderId: index + 1

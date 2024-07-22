@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",
+    "@mui/icons-material": "^5.16.4",
+    "@mui/material": "^5.16.4",
     "firebase": "^10.12.3",
     "firebase-admin": "^12.2.0",
     "framer-motion": "^11.3.2",
