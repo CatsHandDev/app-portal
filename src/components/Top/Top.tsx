@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import styles from './top.module.scss';
-import { Nav } from '../Nav/Nav';
-import { Header } from '../Header/Header';
+import { Nav } from '@/components/Nav/Nav';
+import { Header } from '@/components/Header/Header';
 import MyCalendar from '@/components/Calendar/Calendar';
 import TodoList from '@/components/Todo/TodoList';
 import { User, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { View, Views } from 'react-big-calendar';
-import { Note } from '../Note/Note';
-import Timetable from '../TimeTable/Timetable';
+import { Note } from '@/components/Note/Note';
+import Timetable from '@/components/TimeTable/Timetable';
 
 export const Top = () => {
-  const [activeMenu, setActiveMenu] = useState('Home');
+  const [activeMenu, setActiveMenu] = useState('');
   const [user, setUser] = useState<User | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [view, setView] = useState<View>(Views.MONTH);
@@ -25,7 +25,7 @@ export const Top = () => {
         return <TodoList user={user} />;
       case 'Note':
         return <Note user={user} />;
-      case 'TimeTable':
+      case 'Timetable':
         return <Timetable />;
       default:
         return null;

@@ -1,74 +1,85 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Modal from '@/components/Modal/Modal';
 import styles from './timetable.module.scss';
-import { TimetableItem } from '@/lib/types'
+
+interface TimetableItem {
+  id: string;
+  title: string;
+  duration: string;
+  endTime: string;
+  notes: string;
+}
 
 interface TimetableModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (item: Omit<TimetableItem, 'id'>) => void;
-  item: TimetableItem | null;
-  onUpdate: (item: TimetableItem) => void;
+  onSave: (item: TimetableItem) => void;
 }
 
-const TimetableModal: React.FC<TimetableModalProps> = ({ isOpen, onClose, onSubmit, item, onUpdate }) => {
+const TimetableModal: React.FC<TimetableModalProps> = ({ isOpen, onClose, onSave }) => {
   const [title, setTitle] = useState('');
-  const [duration, setDuration] = useState(0);
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [duration, setDuration] = useState('00:00');
+  const [notes, setNotes] = useState('');
 
   useEffect(() => {
-    if (item) {
-      setTitle(item.title);
-      setDuration(item.duration);
-      setStartTime(item.startTime);
-      setEndTime(item.endTime);
+    if (isOpen) {
+      setTitle('');
+      setDuration('00:00');
+      setNotes('');
     }
-  }, [item]);
+  }, [isOpen]);
 
-  const handleSubmit = () => {
-    const newItem = { title, duration, startTime, endTime };
-    if (item) {
-      onUpdate({ ...newItem, id: item.id });
-    } else {
-      onSubmit(newItem);
-    }
+  const handleSave = () => {
+    const newItem: TimetableItem = {
+      id: Math.random().toString(36).substring(2),
+      title,
+      duration,
+      endTime: '00:00',
+      notes
+    };
+    onSave(newItem);
     onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <h2>{item ? 'Edit Item' : 'Add New Item'}</h2>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
-        />
-        <input
-          type="number"
-          value={duration}
-          onChange={(e) => setDuration(Number(e.target.value))}
-          placeholder="Duration (minutes)"
-        />
-        <input
-          type="datetime-local"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-          placeholder="Start Time"
-        />
-        <input
-          type="datetime-local"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
-          placeholder="End Time"
-        />
-        <button onClick={handleSubmit}>{item ? 'Update' : 'Add'}</button>
-        <button onClick={onClose}>Cancel</button>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <div className={styles.modalContainer}>
+        <div className={styles.formGroup}>
+          <label>
+            <span>Title</span>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
+        </div>
+        <div className={styles.formGroup}>
+          <label>
+            <span>Duration</span>
+            <input
+              type="time"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+            />
+        </label>
+        </div>
+        <div className={styles.formGroup}>
+          <label>
+            <span>Notes</span>
+            <input
+              type="text"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+          </label>
+        </div>
+        <div className={styles.buttonContainer}>
+          <button onClick={onClose}>Cancel</button>
+          <button onClick={handleSave}>Save</button>
+        </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 

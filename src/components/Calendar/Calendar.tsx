@@ -89,6 +89,7 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ view, setView, userId }) => {
   return (
     <div className={styles.calendarContainer}>
       <Calendar
+        className={styles.calendarContainer}
         key={currentDate.toISOString()}
         localizer={localizer}
         events={events}

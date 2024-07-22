@@ -8,6 +8,8 @@ import EditCalendarTwoToneIcon from '@mui/icons-material/EditCalendarTwoTone';
 import PlaylistAddCheckTwoToneIcon from '@mui/icons-material/PlaylistAddCheckTwoTone';
 import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined';
 import TextSnippetTwoToneIcon from '@mui/icons-material/TextSnippetTwoTone';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import EventNoteTwoToneIcon from '@mui/icons-material/EventNoteTwoTone';
 
 interface NavProps {
   activeMenu: string;
@@ -74,8 +76,8 @@ export const Nav: React.FC<NavProps> = ({ activeMenu, setActiveMenu }) => {
         onClick={() => handleMenuClick('Timetable')}
       >
         {activeMenu === 'Timetable' ?
-          <TextSnippetTwoToneIcon className={styles.icon} /> :
-          <TextSnippetOutlinedIcon className={styles.icon} />
+          <EventNoteTwoToneIcon className={styles.icon} /> :
+          <EventNoteIcon className={styles.icon} />
         }
         <p>Timetable</p>
       </div>
