@@ -212,7 +212,7 @@ const Timetable: React.FC<AuthProps> = ({ user }) => {
         <label>
           <span><b>Open Time</b></span>
           <input
-          style={{padding: '5px 15px 5px 0'}}
+          style={{padding: '5px 15px'}}
             type="time"
             value={openTime}
             onChange={(e) => setOpenTime(e.target.value)}
