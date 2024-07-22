@@ -118,7 +118,7 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, onSave, onDele
         </div>
         <div className={styles.modalButtonWrapper}>
           <button className={styles.modalButton} onClick={handleClose}>Cancel</button>
-          <button className={styles.modalButton} onClick={handleSave}>Save</button>
+          <button className={styles.modalButton} onClick={handleSave}>Add</button>
           {event.id && (
             <button className={styles.modalButton} onClick={handleDeleteConfirm}>Delete</button>
           )}

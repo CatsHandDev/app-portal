@@ -35,7 +35,7 @@ export const Note: React.FC<NoteProps> = ({ user }) => {
     };
 
     fetchNote();
-  }, [user]);
+  }, [user, userId]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNoteText(event.target.value);

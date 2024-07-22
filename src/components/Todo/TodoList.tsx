@@ -7,10 +7,10 @@ import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlin
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
-import Modal from './Modal';
+import TodoModal from './TodoModal';
 import { Todo } from '@/lib/types';
-import { User } from 'firebase/auth';
 import { db } from '@/lib/firebase';
+import { User } from 'firebase/auth';
 import { collection, doc, getDoc, setDoc, updateDoc, deleteDoc, query, where, getDocs, addDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -34,7 +34,7 @@ const TodoList: React.FC<AuthProps> = ({ user }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchTodosAndTags = useCallback(async () => {
-    if (!user) return;
+    if (!userId) return;
 
     setIsLoading(true);
 
@@ -43,19 +43,22 @@ const TodoList: React.FC<AuthProps> = ({ user }) => {
       const userDocSnap = await getDoc(userDocRef);
 
       if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        const fetchedTags = userData.tags.filter((tag: string) => tag.trim() !== '');
-
-        setTags(fetchedTags);
-
         const todosQuery = query(collection(db, 'users', userId, 'todos'));
         const todosSnapshot = await getDocs(todosQuery);
+
         const fetchedTodos: Todo[] = [];
+        const allTags: string[] = [];
+
         todosSnapshot.forEach((doc) => {
-          fetchedTodos.push({ id: doc.id, ...doc.data() } as unknown as Todo);
+          const todo = { id: doc.id, ...doc.data() } as unknown as Todo;
+          fetchedTodos.push(todo);
+          if (todo.tag) allTags.push(todo.tag);
         });
 
+        const uniqueTags = Array.from(new Set(allTags.filter(tag => tag.trim() !== '')));
+
         setTodos(fetchedTodos);
+        setTags(uniqueTags);
       } else {
         await setDoc(userDocRef, { tags: [] });
       }
@@ -64,7 +67,7 @@ const TodoList: React.FC<AuthProps> = ({ user }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [user, userId]);
+  }, [userId]);
 
   useEffect(() => {
     if (user) {
@@ -301,7 +304,7 @@ const TodoList: React.FC<AuthProps> = ({ user }) => {
             </Droppable>
           </DragDropContext>
 
-          <Modal
+          <TodoModal
             isOpen={isModalOpen}
             onClose={closeModal}
             newTodo={newTodo}

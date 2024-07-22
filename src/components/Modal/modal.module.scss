@@ -9,12 +9,13 @@
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 10000;
+
+  .modalContainer {
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+  }
 }
 
-.modalContent {
-  max-width: 500px;
-  width: 100%;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-}

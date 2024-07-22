@@ -7,20 +7,30 @@ import EventModal from './EventModal';
 import { Event } from '@/lib/types';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, query, Timestamp } from 'firebase/firestore';
+import { User } from 'firebase/auth';
 
 const localizer = momentLocalizer(moment);
 
 interface MyCalendarProps {
   view: View;
   setView: (view: View) => void;
-  userId: string;
+  user: User | null;
 }
 
-const MyCalendar: React.FC<MyCalendarProps> = ({ view, setView, userId }) => {
+const MyCalendar: React.FC<MyCalendarProps> = ({ view, setView, user }) => {
+  const [userId, setUserId] = useState<string>('');
   const [events, setEvents] = useState<Event[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newEvent, setNewEvent] = useState<Partial<Event>>({});
+
+  useEffect(() => {
+    if (user) {
+      setUserId(user.uid);
+    } else {
+      setUserId('guest');
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchEvents = async () => {

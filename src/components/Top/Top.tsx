@@ -14,19 +14,19 @@ export const Top = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [view, setView] = useState<View>(Views.MONTH);
-
+  const [userId, setUserId] = useState<string>(user ? user.uid : 'guest');
   const renderContent = () => {
     switch (activeMenu) {
       case 'Home':
         return null;
       case 'Calendar':
-        return <MyCalendar view={view} setView={setView} userId={user ? user.uid : 'guest'} />;
+        return <MyCalendar view={view} setView={setView} user={user} />;
       case 'Todo':
         return <TodoList user={user} />;
       case 'Note':
         return <Note user={user} />;
       case 'Timetable':
-        return <Timetable />;
+        return <Timetable user={user} />;
       default:
         return null;
     }

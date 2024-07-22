@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import Modal from '@/components/Modal/Modal';
 import styles from './timetable.module.scss';
 
 interface TimetableItem {
   id: string;
+  orderId: number;
   title: string;
   duration: string;
   endTime: string;
   notes: string;
+  createTime: number;
 }
 
 interface TimetableModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (item: TimetableItem) => void;
+  onSave: (item: Omit<TimetableItem, 'id' | 'orderId' | 'createTime'>) => void;
+  maxOrderId: number;
 }
 
-const TimetableModal: React.FC<TimetableModalProps> = ({ isOpen, onClose, onSave }) => {
-  const [title, setTitle] = useState('');
-  const [duration, setDuration] = useState('00:00');
-  const [notes, setNotes] = useState('');
+const TimetableModal: React.FC<TimetableModalProps> = ({ isOpen, onClose, onSave, maxOrderId }) => {
+  const [title, setTitle] = useState<string>('');
+  const [duration, setDuration] = useState<string>('00:00');
+  const [notes, setNotes] = useState<string>('');
 
   useEffect(() => {
     if (isOpen) {
@@ -30,8 +32,7 @@ const TimetableModal: React.FC<TimetableModalProps> = ({ isOpen, onClose, onSave
   }, [isOpen]);
 
   const handleSave = () => {
-    const newItem: TimetableItem = {
-      id: Math.random().toString(36).substring(2),
+    const newItem: Omit<TimetableItem, 'id' | 'orderId' | 'createTime'> = {
       title,
       duration,
       endTime: '00:00',
@@ -41,45 +42,49 @@ const TimetableModal: React.FC<TimetableModalProps> = ({ isOpen, onClose, onSave
     onClose();
   };
 
+  if (!isOpen) return null;
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className={styles.modalContainer}>
-        <div className={styles.formGroup}>
-          <label>
-            <span>Title</span>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
+    <div className={styles.modalBackground} onClick={onClose}>
+      <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.modalWrapper}>
+          <div className={styles.formGroup}>
+            <label>
+              <span>Title</span>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className={styles.formGroup}>
+            <label>
+              <span>Duration</span>
+              <input
+                type="time"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+              />
           </label>
-        </div>
-        <div className={styles.formGroup}>
-          <label>
-            <span>Duration</span>
-            <input
-              type="time"
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
-            />
-        </label>
-        </div>
-        <div className={styles.formGroup}>
-          <label>
-            <span>Notes</span>
-            <input
-              type="text"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-            />
-          </label>
-        </div>
-        <div className={styles.buttonContainer}>
-          <button onClick={onClose}>Cancel</button>
-          <button onClick={handleSave}>Save</button>
+          </div>
+          <div className={styles.formGroup}>
+            <label>
+              <span>Notes</span>
+              <input
+                type="text"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className={styles.buttonContainer}>
+            <button onClick={onClose}>Cancel</button>
+            <button onClick={handleSave}>Save</button>
+          </div>
         </div>
       </div>
-    </Modal>
+    </div>
   );
 };
 

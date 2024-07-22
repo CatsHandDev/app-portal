@@ -39,6 +39,7 @@ export interface ModalProps {
     importance: number;
     tag: string;
   };
+
   setNewTodo: React.Dispatch<React.SetStateAction<{
     title: string;
     deadline: string;
